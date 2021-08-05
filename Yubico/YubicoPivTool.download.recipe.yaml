@@ -1,0 +1,14 @@
+Identifier: com.github.discentem.download.YubicoPivTool
+MinimumVersion: '2.3'
+
+Input: {}
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      url: https://developers.yubico.com/yubico-piv-tool/Releases/
+      re_pattern: href=\"(yubico-piv-tool-[0-9\.]+-mac-universal.pkg)\"
+  - Processor: URLDownloader
+    Arguments:
+      url: 'https://developers.yubico.com/yubico-piv-tool/Releases/%match%'
+  - Processor: EndOfCheckPhase
