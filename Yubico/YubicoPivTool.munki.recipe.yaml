@@ -1,3 +1,4 @@
+Identifier: com.github.discentem.munki.YubicoPivTool
 Input:
   MUNKI_CATEGORY: Utilities
   MUNKI_REPO_SUBDIR: utilities/yubico/yubico-piv-tool/
