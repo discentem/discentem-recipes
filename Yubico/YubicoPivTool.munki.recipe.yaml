@@ -11,7 +11,7 @@ Input:
     developer: Yubico
     display_name: Yubico Piv Tool
     name: '%NAME%'
-    unattended_uninstall: true
+    unattended_install: true
 
 Process:
   - Processor: CodeSignatureVerifier
@@ -21,11 +21,6 @@ Process:
         - 'Developer ID Installer: Yubico Limited (LQA3CS5MM7)'
         - 'Developer ID Certification Authority'
         - 'Apple Root CA'
-  - Processor: com.github.grahamgilbert.recipes.ShardOverTimeProcessor/ShardOverTimeProcessor
-    Arguments:
-      condition: frame
-      delay_hours: 48
-      shard_days: 10
   - Processor: FlatPkgUnpacker
     Arguments:
       flat_pkg_path: '%pathname%'
@@ -41,10 +36,6 @@ Process:
     Arguments:
       faux_root: '%RECIPE_CACHE_DIR%/payload'
       installs_string: '%found_filenames%'
-  - Processor: MunkiPkginfoMerger
-    Arguments:
-      additional_pkginfo:
-        installable_condition: '%installable_condition%'
   - Processor: MunkiImporter
     Arguments:
       pkg_path: '%pathname%'
