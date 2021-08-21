@@ -40,6 +40,7 @@ Process:
     Arguments:
       pkg_path: '%pathname%'
       repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+  - Processor: MunkiPkginfoMerger
   - Processor: PathDeleter
     Arguments:
       path_list:
