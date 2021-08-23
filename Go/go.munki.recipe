@@ -10,7 +10,7 @@ Note that the installer pkgs have identifiers like 'go1.3.2', 'go1.4', etc.
 As long as this 'go' prefix remains, Munki will compare package versions
 as expected.</string>
     <key>Identifier</key>
-    <string>com.github.timsutton.munki.Go</string>
+    <string>com.github.discentem.munki.Go</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
