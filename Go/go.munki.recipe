@@ -38,7 +38,7 @@ as expected.</string>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
     <key>ParentRecipe</key>
-    <string>com.github.timsutton.download.Go</string>
+    <string>com.github.discentem.download.Go</string>
     <key>Process</key>
     <array>
         <dict>
