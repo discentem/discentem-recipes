@@ -22,4 +22,4 @@ while ((Get-FileHash ($pythonSavePath) -Algorithm MD5).Hash -ne $pythonInstallHa
     curl $pyEXEUrl -UseBasicParsing -OutFile $pythonSavePath
 }
 
-& $pythonSavePath Include_launcher=0 /passive
+& $pythonSavePath TargetDir=C:\Python39 Include_launcher=0 /passive
