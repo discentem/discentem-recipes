@@ -1,0 +1,9 @@
+Description: Stub recipe for my shared processors
+
+Identifier: com.github.discentem.SharedProcessors
+
+Input: {}
+
+MinimumVersion: '2.3'
+
+Process: []

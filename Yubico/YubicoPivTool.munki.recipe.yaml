@@ -32,7 +32,7 @@ Process:
   - Processor: com.facebook.autopkg.shared/SubDirectoryList
     Arguments:
       root_path: '%RECIPE_CACHE_DIR%/payload'
-  - Processor: StringToInstalls
+  - Processor: com.github.discentem.SharedProcessors/StringToInstalls
     Arguments:
       faux_root: '%RECIPE_CACHE_DIR%/payload'
       installs_string: '%found_filenames%'
@@ -41,6 +41,8 @@ Process:
       pkg_path: '%pathname%'
       repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
   - Processor: MunkiPkginfoMerger
+    Arguments:
+      additional_pkginfo: {}
   - Processor: PathDeleter
     Arguments:
       path_list:
