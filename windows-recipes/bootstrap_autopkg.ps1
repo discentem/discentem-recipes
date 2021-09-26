@@ -23,3 +23,7 @@ while ((Get-FileHash ($pythonSavePath) -Algorithm MD5).Hash -ne $pythonInstallHa
 }
 
 & $pythonSavePath TargetDir=C:\Python39 Include_launcher=0 /passive
+
+foreach ($dep in @("pyyaml", "appdirs")) {
+    python -m pip install $dep
+}
