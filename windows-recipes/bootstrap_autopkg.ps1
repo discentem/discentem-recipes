@@ -22,11 +22,12 @@ while ((Get-FileHash ($pythonSavePath) -Algorithm MD5).Hash -ne $pythonInstallHa
     curl $pyEXEUrl -UseBasicParsing -OutFile $pythonSavePath
 }
 
-& $pythonSavePath TargetDir=C:\Python39 Include_launcher=0 /passive
+Start-Process -FilePath "$pythonSavePath" -ArgumentList "TargetDir=C:\Python39 Include_launcher=0 /passive" -Wait
 
 $deps = @(
     "pyyaml",
-    "appdirs"
+    "appdirs",
+    "certifi"
 )
 foreach ($dep in $deps) {
     Write-Host "Installing $dep"
