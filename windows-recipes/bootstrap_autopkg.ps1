@@ -29,5 +29,6 @@ $deps = @(
     "appdirs"
 )
 foreach ($dep in $deps) {
-    python -m pip install $dep
+    Write-Host "Installing $dep"
+    C:\Python39\python -m pip install $dep
 }
