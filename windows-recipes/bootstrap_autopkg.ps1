@@ -1,3 +1,4 @@
+$PSDefaultParameterValues['*:Encoding'] = 'utf16'
 # $pyVersion is the Python version that will be downloaded
 $pyVersion = "3.9.5"
 # $pythonSavePath is place where the Python installer will be downloaded on disk
@@ -7,19 +8,29 @@ $pythonInstallHash = "53a354a15baed952ea9519a7f4d87c3f"
 # $pyEXEUrl is the url where the Python installer will be obtained
 $pyEXEUrl = "https://www.python.org/ftp/python/$pyVersion/python-$pyVersion-amd64.exe"
 
-$gitGitTag = "v2.33.0.windows.2"
-$gitURL = "https://github.com/git-for-windows/git/releases/download/$gitGitTag/Git-2.33.0.2-64-bit.exe"
+$gitSavePath = "~/Downloads/gitInstaller.exe"
+$expectedGitPublisher = "CN=Johannes Schindelin, O=Johannes Schindelin, L=Köln, S=North Rhine-Westphalia, C=DE"
 
-$releases = ((curl https://github.com/git-for-windows/git/releases/latest -UseBasicParsing).Links | Select-String "/releases/download")
-foreach($release in $releases) {
-    if($release -Match ".*/git-for-windows/git/releases/download/.*-64-bit.exe.*") {
-        #Write-Host $release
-        Write-Host $matches[0]
-        break
+if ((Test-Path $gitSavePath) -eq $False) {
+    $gitlatestRelease = (curl https://github.com/git-for-windows/git/releases/latest -UseBasicParsing).Links
+    $gitwin64 = ""
+    foreach ($link in $gitlatestRelease) {
+        if($link -Match ".*/git-for-windows/git/releases/download/.*-64-bit.exe.*") {
+            $gitwin64 = ($link | Out-String).Substring(25, 80)
+            Write-Host "Found latest win64 at $gitwin64"
+            break
+        }
     }
+    curl "https://github.com/$gitWin64" -UseBasicParsing -OutFile $gitSavePath
 }
-# Write-Host $win64[0] | Select-Object
-#Write-Host ($win64 | Select-String -Pattern "^/git-for-windows/git/releases/download/.*-64-bit.exe").Matches[0].Value
+
+$gitPublisher = (Get-AuthenticodeSignature "$gitSavePath").SignerCertificate.Subject
+Write-Host ($gitPublisher -eq $expectedGitPublisher)
+if ($gitPublisher -ne $expectedGitPublisher) {
+    Write-Host "Git was signed by $gitPublisher but we expected $expectedGitPublisher"
+} else {
+    Write-Host "Git was signed by $expectedGitPublisher as expected"
+}
 
 exit(1)
 
