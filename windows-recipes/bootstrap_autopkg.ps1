@@ -23,6 +23,7 @@ while ((Get-FileHash ($pythonSavePath) -Algorithm MD5).Hash -ne $pythonInstallHa
 }
 
 Start-Process -FilePath "$pythonSavePath" -ArgumentList "TargetDir=C:\Python39 Include_launcher=0 /passive" -Wait
+Write-Host "Installing Python if not already installed"
 
 $deps = @(
     "pyyaml",
@@ -33,3 +34,29 @@ foreach ($dep in $deps) {
     Write-Host "Installing $dep"
     C:\Python39\python -m pip install $dep
 }
+
+$prefs = @"
+{
+    "CACHE_DIR": "C:\\autopkg\\cache",
+    "RECIPE_SEARCH_DIRS": "C:\\autopkg\\Recipes",
+    "RECIPE_OVERRIDE_DIRS": "C:\\autopkg\\RecipeOverrides",
+    "RECIPE_REPO_DIR": "C:\\autopkg\\RecipeRepos"
+}
+"@
+
+if (!(Test-Path c:\autopkg)) {
+    Write-Host "Creating c:\autopkg"
+    New-Item -ItemType Directory -Path c:\autopkg
+} else {
+    Write-Host "Skipping creation of c:\autopkg because it already exists"
+}
+
+if (!(Test-Path c:\autopkg\config.json)) {
+    $prefs | Out-File -FilePath "c:\autopkg\config.json" -Force -Encoding ascii
+    Write-Host "Wrote c:\autopkg\config.json"
+} else {
+    Write-Host "c:\autopkg\config.json already exists, not overwriting"
+}
+
+
+
