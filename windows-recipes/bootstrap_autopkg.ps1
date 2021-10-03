@@ -1,5 +1,5 @@
 ### VSCODE DEFAULT ENCODING WILL MISINTERPRET $expectedGitPublisher
-### Switch encoding for this file to UTF-16
+### Switch encoding for this file to Windows 1252 if needed
 
 # $pyVersion is the Python version that will be downloaded
 $pyVersion = "3.9.5"
@@ -13,9 +13,9 @@ $pyEXEUrl = "https://www.python.org/ftp/python/$pyVersion/python-$pyVersion-amd6
 $gitSavePath = "~/Downloads/gitInstaller.exe"
 $expectedGitPublisher = "CN=Johannes Schindelin, O=Johannes Schindelin, L=Köln, S=North Rhine-Westphalia, C=DE"
 
+$gitwin64 = ""
 if ((Test-Path $gitSavePath) -eq $False) {
     $gitlatestRelease = (curl https://github.com/git-for-windows/git/releases/latest -UseBasicParsing).Links
-    $gitwin64 = ""
     foreach ($link in $gitlatestRelease) {
         if($link -Match ".*/git-for-windows/git/releases/download/.*-64-bit.exe.*") {
             $gitwin64 = ($link | Out-String).Substring(25, 80)
@@ -29,12 +29,17 @@ if ((Test-Path $gitSavePath) -eq $False) {
 $gitPublisher = (Get-AuthenticodeSignature "$gitSavePath").SignerCertificate.Subject
 if ($gitPublisher -ne $expectedGitPublisher) {
     Write-Host "Git was signed by $gitPublisher but we expected $expectedGitPublisher"
+    Write-Host "exiting"
     exit(1)
 } else {
     Write-Host "Git was signed by $expectedGitPublisher as expected"
 }
 
 # install git: https://github.com/git-for-windows/git/wiki/Silent-or-Unattended-Installation
+
+$gitInstallArgs = "/VERYSILENT /NORESTART /NOCANCEL /SP- /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /COMPONENTS='icons,ext\reg\shellhere,assoc,assoc_sh'"
+Write-Host "Installing $gitwin64"
+Start-Process -FilePath "$gitSavePath" -ArgumentList $gitInstallArgs -Wait
 
 # Download Python if needed
 if ((Test-Path $pythonSavePath) -eq $False) {
