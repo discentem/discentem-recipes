@@ -7,6 +7,9 @@ $pythonInstallHash = "53a354a15baed952ea9519a7f4d87c3f"
 # $pyEXEUrl is the url where the Python installer will be obtained
 $pyEXEUrl = "https://www.python.org/ftp/python/$pyVersion/python-$pyVersion-amd64.exe"
 
+$gitGitTag = "v2.33.0.windows.2"
+$gitURL = "https://github.com/git-for-windows/git/releases/download/v2.33.0.windows.2/Git-2.33.0.2-64-bit.exe"
+
 # Download Python if needed
 if ((Test-Path $pythonSavePath) -eq $False) {
     Write-Host "Downloading Python $pyVersion"
@@ -34,6 +37,8 @@ foreach ($dep in $deps) {
     Write-Host "Installing $dep"
     C:\Python39\python -m pip install $dep
 }
+
+
 
 $prefs = @"
 {
