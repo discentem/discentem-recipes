@@ -10,6 +10,19 @@ $pyEXEUrl = "https://www.python.org/ftp/python/$pyVersion/python-$pyVersion-amd6
 $gitGitTag = "v2.33.0.windows.2"
 $gitURL = "https://github.com/git-for-windows/git/releases/download/$gitGitTag/Git-2.33.0.2-64-bit.exe"
 
+$releases = ((curl https://github.com/git-for-windows/git/releases/latest -UseBasicParsing).Links | Select-String "/releases/download")
+foreach($release in $releases) {
+    if($release -Match ".*/git-for-windows/git/releases/download/.*-64-bit.exe.*") {
+        #Write-Host $release
+        Write-Host $matches[0]
+        break
+    }
+}
+# Write-Host $win64[0] | Select-Object
+#Write-Host ($win64 | Select-String -Pattern "^/git-for-windows/git/releases/download/.*-64-bit.exe").Matches[0].Value
+
+exit(1)
+
 # Download Python if needed
 if ((Test-Path $pythonSavePath) -eq $False) {
     Write-Host "Downloading Python $pyVersion"
