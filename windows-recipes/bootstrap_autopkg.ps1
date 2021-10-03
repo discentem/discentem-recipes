@@ -8,7 +8,7 @@ $pythonInstallHash = "53a354a15baed952ea9519a7f4d87c3f"
 $pyEXEUrl = "https://www.python.org/ftp/python/$pyVersion/python-$pyVersion-amd64.exe"
 
 $gitGitTag = "v2.33.0.windows.2"
-$gitURL = "https://github.com/git-for-windows/git/releases/download/v2.33.0.windows.2/Git-2.33.0.2-64-bit.exe"
+$gitURL = "https://github.com/git-for-windows/git/releases/download/$gitGitTag/Git-2.33.0.2-64-bit.exe"
 
 # Download Python if needed
 if ((Test-Path $pythonSavePath) -eq $False) {
