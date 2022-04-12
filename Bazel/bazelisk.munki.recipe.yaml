@@ -15,24 +15,35 @@ Input:
 Process:
   - Processor: PkgRootCreator
     Arguments:
-      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/pkgroot'
       pkgdirs:
-        'usr/local/bin': '775'
+        'usr/local/bin': '0775'
   - Processor: Copier
     Arguments:
       source_path: '%pathname%'
       destination_path: '%pkgroot%/usr/local/bin/bazelisk'
+  # create scripts dir
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+  # create postinstall
+  - Processor: FileCreator
+    Arguments:
+      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
+      file_content: |
+        #!/bin/bash
+        chmod +x /usr/local/bin/bazelisk
+      file_mode: '0755'
   - Processor: PkgCreator
     Arguments:
       pkg_request:
-        pkgdir: '%RECIPE_CACHE_DIR%'
+        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/pkgroot'
         pkgname: '%NAME%-%version%'
         id: 'com.github.bazelbuild.bazelisk'
+        # scripts is automatically looking relative to %RECIPE_CACHE_DIR%
+        scripts: '%NAME%/scripts'
   - Processor: MunkiImporter
     Arguments:
       pkg_path: '%pkg_path%'
       repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-  - Processor: MunkiPkginfoMerger
-    Arguments:
-      additional_pkginfo: {}
 ParentRecipe: com.github.discentem.bazelisk.download.yaml
