@@ -1,0 +1,38 @@
+Input:
+  MUNKI_CATEGORY: Utilities
+  MUNKI_REPO_SUBDIR: utilities/bazel/bazelisk
+  NAME: bazelisk
+  pkginfo:
+    catalogs: 
+      - production
+    category: '%MUNKI_CATEGORY%'
+    description: Bazelisk is a wrapper for Bazel written in Go. It automatically picks a good version of Bazel given your current working directory, downloads it from the official server (if required) and then transparently passes through all command-line arguments to the real Bazel binary. You can call it just like you would call Bazel.
+    developer: Gooogle
+    display_name: Bazelisk
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+  - Processor: PkgRootCreator
+    Arguments:
+      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%'
+      pkgdirs:
+        'usr/local/bin': '775'
+  - Processor: Copier
+    Arguments:
+      source_path: '%pathname%'
+      destination_path: '%pkgroot%/usr/local/bin/bazelisk'
+  - Processor: PkgCreator
+    Arguments:
+      pkg_request:
+        pkgdir: '%RECIPE_CACHE_DIR%'
+        pkgname: '%NAME%-%version%'
+        id: 'com.github.bazelbuild.bazelisk'
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: '%pkg_path%'
+      repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+  - Processor: MunkiPkginfoMerger
+    Arguments:
+      additional_pkginfo: {}
+ParentRecipe: com.github.discentem.bazelisk.download.yaml
