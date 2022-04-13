@@ -1,3 +1,6 @@
+Identifier: com.github.discentem.bazelisk.munki.yaml
+MinimumVersion: '2.3'
+
 Input:
   MUNKI_CATEGORY: Utilities
   MUNKI_REPO_SUBDIR: utilities/bazel/bazelisk
