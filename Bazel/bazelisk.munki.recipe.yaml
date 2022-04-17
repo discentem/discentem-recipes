@@ -23,9 +23,11 @@ Process:
       source_path: '%pathname%'
       destination_path: '%pkgroot%/usr/local/bin/bazelisk'
   # create scripts dir
-  - Processor: PkgRootCreator
+  - Processor: FolderCreator
     Arguments:
-      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      root: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
+      subdirs:
+        'thing': '0775'
   # create postinstall
   - Processor: FileCreator
     Arguments:
