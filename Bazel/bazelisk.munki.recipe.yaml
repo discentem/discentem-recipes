@@ -1,3 +1,4 @@
+Identifier: com.discentem.bazelisk.munki.recipe.yaml
 Input:
   MUNKI_CATEGORY: Utilities
   MUNKI_REPO_SUBDIR: utilities/bazel/bazelisk
@@ -11,41 +12,9 @@ Input:
     display_name: Bazelisk
     name: '%NAME%'
     unattended_install: true
-
 Process:
-  - Processor: PkgRootCreator
-    Arguments:
-      pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/pkgroot'
-      pkgdirs:
-        'usr/local/bin': '0775'
-  - Processor: Copier
-    Arguments:
-      source_path: '%pathname%'
-      destination_path: '%pkgroot%/usr/local/bin/bazelisk'
-  # create scripts dir
-  - Processor: FolderCreator
-    Arguments:
-      root: '%RECIPE_CACHE_DIR%/%NAME%/scripts'
-      subdirs:
-        'thing': '0775'
-  # create postinstall
-  - Processor: FileCreator
-    Arguments:
-      file_path: '%RECIPE_CACHE_DIR%/%NAME%/scripts/postinstall'
-      file_content: |
-        #!/bin/bash
-        chmod +x /usr/local/bin/bazelisk
-      file_mode: '0755'
-  - Processor: PkgCreator
-    Arguments:
-      pkg_request:
-        pkgroot: '%RECIPE_CACHE_DIR%/%NAME%/pkgroot'
-        pkgname: '%NAME%-%version%'
-        id: 'com.github.bazelbuild.bazelisk'
-        # scripts is automatically looking relative to %RECIPE_CACHE_DIR%
-        scripts: '%NAME%/scripts'
   - Processor: MunkiImporter
     Arguments:
       pkg_path: '%pkg_path%'
       repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-ParentRecipe: com.github.discentem.bazelisk.download.yaml
+ParentRecipe: com.github.discentem.bazelisk.pkg.yaml

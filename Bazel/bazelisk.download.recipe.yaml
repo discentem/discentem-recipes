@@ -1,4 +1,4 @@
-Identifier: com.github.discentem.bazelisk.download.yaml
+Identifier: com.github.discentem.bazelisk.download.recipe.yaml
 MinimumVersion: '2.3'
 
 Input:
